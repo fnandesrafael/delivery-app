@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Login() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
   return (
     <section>
       <h2>Delivery App</h2>
       <div>
-        <input type="email" data-testid="common_login__input-email" />
-        <input type="password" data-testid="common_login__input-password" />
+        <input
+          type="email"
+          data-testid="common_login__input-email"
+          onChange={ ({ target }) => { setEmail(target.value); } }
+        />
+        <input
+          type="password"
+          data-testid="common_login__input-password"
+          onChange={ ({ target }) => { setPassword(target.value); } }
+        />
         <button type="button" data-testid="common_login__button-login">Login</button>
         <button type="button" data-testid="common_login__button-register">
           Ainda não tenho conta
@@ -18,11 +29,3 @@ function Login() {
 }
 
 export default Login;
-
-/*
-1: common_login__input-email
-- 2: common_login__input-password
-- 3: common_login__button-login
-- 4: common_login__button-register
-- 5: common_login__element-invalid-email [Elemento oculto (Mensagens de erro)
-*/
