@@ -1,8 +1,8 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  const salesProduct = sequelize.define(
-    "sales_products",
+  const Product = sequelize.define(
+    "Product",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         field: "url_image",
       },
     },
-    { tableName: "sales_products", timestamps: false }
+    { tableName: "products", timestamps: false }
   );
 
-  return salesProduct;
+  return Product;
 };

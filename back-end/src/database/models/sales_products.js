@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const Product = sequelize.define('products',{
+  const SalesProducts = sequelize.define('SalesProducts',{
     saleId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,      
     },
-  },{ tableName: 'products', timestamps: false })
+  },{ tableName: 'sales_products', timestamps: false })
 
-  return Product;
+  return SalesProducts;
 };

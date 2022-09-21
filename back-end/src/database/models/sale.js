@@ -1,9 +1,7 @@
-import User from "./user";
 ("use strict");
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   const Sale = sequelize.define(
-    "sales",
+    "Sale",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -54,15 +52,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "sales", timestamps: false }
   );
-  User.hasMany(Sale, {
-    foreignKey: "userId",
-    as: "user_id",
-  });
-  User.hasMany(Sale, {
-    foreignKey: "sellerId",
-    as: "seller_id",
-  });
-
-  Sale.belongsTo(User);
+  Sale.associate = (models) => {
+      Sale.belongsTo(models.User)
+    }
   return Sale;
 };
