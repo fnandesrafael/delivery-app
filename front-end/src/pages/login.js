@@ -21,11 +21,11 @@ function Login() {
   }, [email, password]);
 
   const login = async () => {
-    const response = { status: 404 };
+    const response = { status: 404, message: 'User does not exist' };
     // const response = await axios.post('localhost:3001/login', { email, password })
 
     if (response.status === HTTP_NOT_FOUND) {
-      return setErrorMessage('Invalid email or password');
+      return setErrorMessage(response.message);
     } return setErrorMessage(false);
   };
 
