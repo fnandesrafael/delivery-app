@@ -1,10 +1,11 @@
 const Joi = require('joi');
 
-const userAuth = (req, res, next) => {
+const registerAuth = (req, res, next) => {
   const { body } = req;
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
+    name: Joi.string().min(12).required(),
   });
 
   const { error } = schema.validate(body);
@@ -14,4 +15,4 @@ const userAuth = (req, res, next) => {
     next();
 }; 
 
-module.exports = { userAuth };
+module.exports = { registerAuth };
