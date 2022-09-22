@@ -1,9 +1,9 @@
-const { createToken } = require('../service/loginService');
+const { authenticateUser } = require('../service/loginService');
 
-const authenticateUser = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;  
-  const token = await createToken({ email, password });
+  const token = await authenticateUser({ email, password });
   return res.status(200).json({ token });
 }; 
 
-module.exports = { authenticateUser };
+module.exports = { login };
