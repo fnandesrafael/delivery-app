@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const HTTP_NOT_FOUND = 404;
@@ -21,12 +21,15 @@ function Login() {
   }, [email, password]);
 
   const login = async () => {
-    const response = { status: 404, message: 'User does not exist' };
-    // const response = await axios.post('localhost:3001/login', { email, password })
-
-    if (response.status === HTTP_NOT_FOUND) {
-      return setErrorMessage(response.message);
-    } return setErrorMessage(false);
+    /*  const response = { status: 404, message: 'User does not exist' }; */
+    try {
+      await axios.post('http://localhost:3001/login', { email, password });
+      return setErrorMessage(false);
+    } catch (error) {
+      if (error.response.status === HTTP_NOT_FOUND) {
+        return setErrorMessage('user not found');
+      } return setErrorMessage(false);
+    }
   };
 
   return (
