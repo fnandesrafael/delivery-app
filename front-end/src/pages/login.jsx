@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
@@ -49,11 +49,13 @@ function Login() {
           <input
             type="email"
             data-testid="common_login__input-email"
+            placeholder="email@email.com"
             onChange={ ({ target }) => { setEmail(target.value); } }
           />
           <input
             type="password"
             data-testid="common_login__input-password"
+            placeholder="**********"
             onChange={ ({ target }) => { setPassword(target.value); } }
           />
           <button
@@ -71,9 +73,9 @@ function Login() {
             Ainda não tenho conta
           </button>
         </div>
-        <p data-testid="common_login__element-invalid-email">
+        <span data-testid="common_login__element-invalid-email">
           {errorMessage}
-        </p>
+        </span>
       </section>
     )
   );
