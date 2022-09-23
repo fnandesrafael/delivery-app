@@ -1,6 +1,6 @@
-// import axios from 'axios';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 const HTTP_NOT_FOUND = 404;
 const HTTP_OK = 200;
@@ -26,7 +26,6 @@ function Login() {
   const login = async () => {
     try {
       const response = await axios.post('http://localhost:3001/login', { email, password });
-      console.log(response.status);
 
       if (response.status === HTTP_OK) {
         setIsLogged(true);
@@ -66,12 +65,15 @@ function Login() {
           >
             Login
           </button>
-          <button
-            type="button"
-            data-testid="common_login__button-register"
-          >
-            Ainda não tenho conta
-          </button>
+          <Navigate to="/register">
+            <button
+              type="button"
+              data-testid="common_login__button-register"
+            >
+              Ainda não tenho conta
+            </button>
+          </Navigate>
+
         </div>
         <span data-testid="common_login__element-invalid-email">
           {errorMessage}
