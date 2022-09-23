@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 const HTTP_NOT_FOUND = 404;
 const HTTP_OK = 200;
@@ -65,14 +65,14 @@ function Login() {
           >
             Login
           </button>
-          <Navigate to="/register">
+          <Link to="/register">
             <button
               type="button"
               data-testid="common_login__button-register"
             >
               Ainda não tenho conta
             </button>
-          </Navigate>
+          </Link>
 
         </div>
         <span data-testid="common_login__element-invalid-email">
