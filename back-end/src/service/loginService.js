@@ -1,11 +1,10 @@
+const jwt = require('jsonwebtoken');
+const secret = require('fs')
+.readFileSync('jwt.evaluation.key', 'utf-8');
 const md5 = require('md5');
-const jwt = require('jsonwebtoken'); 
-require('dotenv').config();
-
 const { throwCustomError } = require('../utils/errorHandler');
 const db = require('../database/models');
 
-const jwtSecret = process.env.JWT_SECRET;
 const checkEmail = async (email) => {
   const data = await db.User.findOne({ where: { email }, raw: true });    
   if (!data) {
@@ -14,7 +13,7 @@ const checkEmail = async (email) => {
 };
 
 const createToken = (user) => {
-  const token = jwt.sign(user, jwtSecret);
+  const token = jwt.sign(user, secret);
   return token;
 };
 
