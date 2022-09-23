@@ -21,13 +21,14 @@ const checkPassword = async (user) => {
   const userDb = await db.User.findOne({ where: { email: user.email }, raw: true }); 
   const isValidPassword = (md5(user.password) === userDb.password);  
   if (!isValidPassword) throwCustomError('notFoundError', 'user or password incorrect');
+  return userDb;
 };
 
 const authenticateUser = async (user) => {
-  console.log(user);
   await checkEmail(user.email);
-  await checkPassword(user);
-  return createToken(user);
+  const userDb = await checkPassword(user);
+  const token = createToken(user);
+  return ({ token, email: userDb.email, name: userDb.name, role: userDb.role });
 };
 
 module.exports = { authenticateUser };
