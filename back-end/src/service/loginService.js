@@ -1,7 +1,5 @@
-const jwt = require('jsonwebtoken');
-const secret = require('fs')
-.readFileSync('jwt.evaluation.key', 'utf-8');
 const md5 = require('md5');
+const { createToken } = require('./tokenService');
 const { throwCustomError } = require('../utils/errorHandler');
 const db = require('../database/models');
 
@@ -10,11 +8,6 @@ const checkEmail = async (email) => {
   if (!data) {
     throwCustomError('notFoundError', 'user or password incorrect');
   }  
-};
-
-const createToken = (user) => {
-  const token = jwt.sign(user, secret);
-  return token;
 };
 
 const checkPassword = async (user) => {
