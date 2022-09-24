@@ -30,6 +30,7 @@ function Register() {
     try {
       const response = await axios.post('http://localhost:3001/register', { email, password, name: userName });
       if (response.status === HTTP_CREATED) {
+        console.log(response);
         setIsLogged(true);
       }
     } catch (error) {
@@ -45,25 +46,25 @@ function Register() {
           <div>
             <input
               type="text"
-              data-testeid="common_register__input-name"
+              data-testid="common_register__input-name"
               placeholder="seu nome"
               onChange={ ({ target }) => setUserName(target.value) }
             />
             <input
               type="email"
-              data-testeid="common_register__input-email"
+              data-testid="common_register__input-email"
               placeholder="email@email.com"
               onChange={ ({ target }) => setEmail(target.value) }
             />
             <input
               type="password"
-              data-testeid="common_register__button-register"
+              data-testid="common_register__input-password"
               placeholder="**********"
               onChange={ ({ target }) => setPassword(target.value) }
             />
             <button
               type="button"
-              data-testeid="common_register__input-name"
+              data-testid="common_register__button-register"
               disabled={ isLoginBtnDisabled }
               onClick={ registerUser }
             >
