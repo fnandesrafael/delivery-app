@@ -29,7 +29,7 @@ module.exports = {
         onDelete: "CASCADE",
         references: { model: "users", key: "id" },
       },
-      deliveryAdress: {
+      deliveryAddress: {
         allowNull: false,
         type: Sequelize.STRING,
         field: "delivery_address",
@@ -43,10 +43,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         field: "sale_date",
+        defaultValue: Sequelize.NOW
       },
       status: {
         allowNull: false,
         type: Sequelize.STRING,
+        defaultValue: "pendente"
       },
     });
   },

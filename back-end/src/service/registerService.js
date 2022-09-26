@@ -13,11 +13,10 @@ const checkifExistName = async (name) => {
   if (user) throwCustomError('sequelizeUniqueConstraintError', 'name already exists');
 };
 
-const createUser = async (user) => {
-  const { name, email } = user;
+const createUser = async (user) => { 
   await checkifExistEmail(user.email);
   await checkifExistName(user.name);  
-  const token = createToken({ email, name });
+  const token = createToken(user.email);
   const userDb = await db.User.create(
     {
       email: user.email,

@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         references: { model: "users", key: "id" },
       },
-      deliveryAdress: {
+      deliveryAddress: {
         allowNull: false,
         type: DataTypes.STRING,
         field: "delivery_address",
@@ -44,10 +44,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         field: "sale_date",
+        defaultValue: DataTypes.NOW,
       },
       status: {
         allowNull: false,
         type: DataTypes.STRING,
+        defaultValue: "pendente"
       },
     },
     { tableName: "sales", timestamps: false }
