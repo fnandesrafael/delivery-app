@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: "delivery_address",
       },
-      deliveryAdress: {
+      deliveryNumber: {
         allowNull: false,
         type: DataTypes.STRING,
         field: "delivery_number",
