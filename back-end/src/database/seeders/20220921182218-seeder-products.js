@@ -13,7 +13,7 @@ module.exports = {
         },
         {
           id: 2,
-          name: "Heineken",
+          name: "Heineken 600ml",
           price: 7.5,
           url_image: "http://localhost:3001/images/heineken_600ml.jpg",
         },
