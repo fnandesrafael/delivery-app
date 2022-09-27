@@ -1,14 +1,10 @@
 const { readProducts } = require('../service/productsService');
 
-const getProdcuts = async (_req, res) => {
-try {
-    const products = await readProducts();
+const getProducts = async (_req, res) => {
+  const products = await readProducts();
   res.status(200).json(products);
-} catch (error) {
-  console.log(error);
-}
 };
 
 module.exports = {
-  getProdcuts,
+  getProducts,
 };
