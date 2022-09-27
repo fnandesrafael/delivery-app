@@ -1,7 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Navbar from '../components/Navbar';
+import ProductCard from '../components/ProductCard';
 
-export default function products() {
+export default function Products() {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    const response = await axios.get('http://localhost:3001/products');
+    setProducts(response.data);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
-    <div>products</div>
+    <section>
+      <Navbar />
+      {products.map((product) => (
+        <ProductCard key={ product.id } data={ product } />
+      ))}
+      <button type="button" data-testid="customer_products__checkout-bottom-value">
+        ver carrinho
+      </button>
+    </section>
   );
 }
