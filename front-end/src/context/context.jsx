@@ -4,14 +4,20 @@ import PropTypes from 'prop-types';
 export const Context = createContext();
 
 function ContextProvider({ children }) {
-  const [finalPrice, setFinalPrice] = useState(0);
+  const [totalProducts, setTotalProducts] = useState({});
 
   const value = useMemo(() => ({
-    finalPrice,
-    setFinalPrice,
-  }), [finalPrice]);
+    totalProducts,
+    setTotalProducts,
+  }), [totalProducts]);
 
-  return <Context.Provider value={ value }>{ children }</Context.Provider>;
+  return (
+    <Context.Provider
+      value={ value }
+    >
+      { children }
+    </Context.Provider>
+  );
 }
 
 export default ContextProvider;

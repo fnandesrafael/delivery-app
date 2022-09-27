@@ -1,22 +1,35 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Context } from '../context/context';
 
 function ProductCard({ data }) {
-  const { setFinalPrice } = useContext(Context);
-  const { id, name, price, urlImage } = data;
   const [quantity, setQuantity] = useState(0);
+  const [isLessBtnDisabled, setIsLessBtnDisabled] = useState(true);
 
-  const updateQuantityAndPrice = (isAdding) => {
+  const { setTotalProducts } = useContext(Context);
+
+  const { id, name, price, urlImage } = data;
+
+  const updateQuantity = (isAdding) => {
     if (isAdding) {
-      const newValue = quantity + 1;
-      setQuantity(newValue);
-      return setFinalPrice(quantity * price);
-    }
-    const newValue = quantity - 1;
-    setQuantity(newValue);
-    setFinalPrice(quantity * price);
+      return setQuantity((prevState) => prevState + 1);
+    } return setQuantity((prevState) => prevState - 1);
   };
+
+  useEffect(() => {
+    const updateFinalPrice = () => {
+      const productPrice = quantity * Number(price);
+      setTotalProducts((prevState) => ({ ...prevState, [`procut${id}`]: productPrice }));
+    };
+    updateFinalPrice();
+
+    const verifyQuantity = () => {
+      if (quantity === 0) {
+        return setIsLessBtnDisabled(true);
+      } return setIsLessBtnDisabled(false);
+    };
+    verifyQuantity();
+  }, [quantity, price, id, setTotalProducts]);
 
   return (
     <div>
@@ -38,7 +51,7 @@ function ProductCard({ data }) {
       <button
         type="button"
         data-testid={ `customer_products__button-card-add-item-${id}` }
-        onClick={ updateQuantityAndPrice(true) }
+        onClick={ () => updateQuantity(true) }
       >
         +
       </button>
@@ -46,12 +59,13 @@ function ProductCard({ data }) {
         type="number"
         data-testid={ `customer_products__input-card-quantity-${id}` }
         value={ quantity }
-        min="0"
+        onChange={ ({ target }) => { setQuantity(Number(target.value)); } }
       />
       <button
         type="button"
         data-testid={ `customer_products__button-card-rm-item-${id}` }
-        onClick={ updateQuantityAndPrice(false) }
+        onClick={ () => updateQuantity(false) }
+        disabled={ isLessBtnDisabled }
       >
         -
       </button>

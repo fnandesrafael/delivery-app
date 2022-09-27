@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
 import { Context } from '../context/context';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const { finalPrice } = useContext(Context);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
+
+  const { totalProducts } = useContext(Context);
 
   const getProducts = async () => {
     const userData = JSON.parse(localStorage.getItem('user'));
@@ -18,7 +22,21 @@ export default function Products() {
 
   useEffect(() => {
     getProducts();
-  }, []);
+
+    const calculateFinalPrice = () => {
+      const productValues = Object.values(totalProducts);
+      const finalPrice = productValues.reduce((acc, cur) => acc + cur, 0);
+      return setTotalPrice(Number(finalPrice));
+    };
+    calculateFinalPrice();
+
+    const verifyCart = () => {
+      if (totalPrice > 0) {
+        return setIsCartEmpty(false);
+      } return setIsCartEmpty(true);
+    };
+    verifyCart();
+  }, [totalPrice, totalProducts]);
 
   return (
     <section>
@@ -26,9 +44,18 @@ export default function Products() {
       {products.map((product) => (
         <ProductCard key={ product.id } data={ product } />
       ))}
-      <button type="button" data-testid="customer_products__checkout-bottom-value">
-        {`ver carrinho R$${finalPrice}`}
-      </button>
+      <Link to="/customer/checkout">
+        <button
+          type="button"
+          data-testid="customer_products__button-cart"
+          disabled={ isCartEmpty }
+        >
+          Ver Carrinho
+          <h3 type="button" data-testid="customer_products__checkout-bottom-value">
+            {(totalPrice.toFixed(2)).replace('.', ',')}
+          </h3>
+        </button>
+      </Link>
     </section>
   );
 }
