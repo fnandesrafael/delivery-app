@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [hasLogouted, setHasLogouted] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  const recoverUserData = () => {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    return setUserName(userData.name);
+  };
 
   const clearUserData = () => {
     localStorage.removeItem('user');
     return setHasLogouted(true);
   };
+
+  useEffect(() => {
+    recoverUserData();
+  }, []);
 
   return (
     hasLogouted ? (
@@ -30,7 +40,7 @@ export default function Navbar() {
           to="/costumer/profile"
           data-testid="customer_products__element-navbar-user-full-name"
         >
-          <h5>Profile</h5>
+          <h5>{ userName }</h5>
         </Link>
         <Link
           to="/login"

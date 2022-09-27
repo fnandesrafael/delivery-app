@@ -7,7 +7,10 @@ export default function Products() {
   const [products, setProducts] = useState([]);
 
   const getProducts = async () => {
-    const response = await axios.get('http://localhost:3001/products');
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const { token } = userData;
+
+    const response = await axios.get('http://localhost:3001/products', { headers: { Authorization: token } });
     setProducts(response.data);
   };
 
