@@ -10,7 +10,7 @@ export default function Router() {
       <Routes>
         <Route path="/" element={ <Navigate replace to="/login" /> } />
         <Route path="/login" element={ <Login /> } />
-        <Route path="/costumer/products" element={ <Products /> } />
+        <Route path="/customer/products" element={ <Products /> } />
         <Route path="/register" element={ <Register /> } />
       </Routes>
     </BrowserRouter>

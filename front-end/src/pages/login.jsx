@@ -23,11 +23,16 @@ function Login() {
     } validateUserPayload();
   }, [email, password]);
 
+  const storageUserData = (userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
   const login = async () => {
     try {
       const response = await axios.post('http://localhost:3001/login', { email, password });
 
       if (response.status === HTTP_OK) {
+        storageUserData(response.data);
         setIsLogged(true);
         setErrorMessage(false);
       }
