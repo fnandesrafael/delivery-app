@@ -5,11 +5,14 @@ export const Context = createContext();
 
 function ContextProvider({ children }) {
   const [totalProducts, setTotalProducts] = useState({});
+  const [cartProducts, setCartProducts] = useState([]);
 
   const value = useMemo(() => ({
     totalProducts,
     setTotalProducts,
-  }), [totalProducts]);
+    cartProducts,
+    setCartProducts,
+  }), [totalProducts, cartProducts]);
 
   return (
     <Context.Provider
