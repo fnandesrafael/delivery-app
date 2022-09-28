@@ -10,7 +10,7 @@ export default function Products() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isCartEmpty, setIsCartEmpty] = useState(true);
 
-  const { totalProducts } = useContext(Context);
+  const { totalProducts, setCartProducts } = useContext(Context);
 
   const getProducts = async () => {
     const userData = JSON.parse(localStorage.getItem('user'));
@@ -18,11 +18,19 @@ export default function Products() {
 
     const response = await axios.get('http://localhost:3001/products', { headers: { Authorization: token } });
     setProducts(response.data);
+    setCartProducts(response.data.map((product) => ({
+      ...product,
+      totalPrice: 0,
+      quantity: 0,
+    })));
   };
 
   useEffect(() => {
     getProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  useEffect(() => {
     const calculateFinalPrice = () => {
       const productValues = Object.values(totalProducts);
       const finalPrice = productValues.reduce((acc, cur) => acc + cur, 0);
