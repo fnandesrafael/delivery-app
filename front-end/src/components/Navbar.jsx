@@ -25,19 +25,19 @@ export default function Navbar() {
     ) : (
       <nav>
         <Link
-          to="/costumer/products"
+          to="/customer/products"
           data-testid="customer_products__element-navbar-link-products"
         >
           <h5>Products</h5>
         </Link>
         <Link
-          to="/costumer/order"
+          to="/customer/order"
           data-testid="customer_products__element-navbar-link-orders"
         >
           <h5>Order</h5>
         </Link>
         <Link
-          to="/costumer/profile"
+          to="/customer/profile"
           data-testid="customer_products__element-navbar-user-full-name"
         >
           <h5>{ userName }</h5>
