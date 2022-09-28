@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 const MIN_PASSWORD_LENGTH = 6;
 const MIN_NAME_LENGTH = 12;
 const HTTP_CREATED = 201;
+const HTTP_CONFLICT = 409;
 
 function Register() {
   const [userName, setUserName] = useState('');
@@ -12,6 +13,7 @@ function Register() {
   const [password, setPassword] = useState('');
   const [isLoginBtnDisabled, setIsLoginBtnDisabled] = useState(true);
   const [isLogged, setIsLogged] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   useEffect(() => {
     function validateUserPayload() {
@@ -26,15 +28,23 @@ function Register() {
     } validateUserPayload();
   }, [email, password, userName]);
 
+  const storageUserData = (userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
   const registerUser = async () => {
     try {
       const response = await axios.post('http://localhost:3001/register', { email, password, name: userName });
+
       if (response.status === HTTP_CREATED) {
-        console.log(response);
+        storageUserData(response.data);
         setIsLogged(true);
+        setErrorMessage(false);
       }
     } catch (error) {
-      console.log(error.response);
+      if (error.response.status === HTTP_CONFLICT) {
+        return setErrorMessage('usuário já está cadastrado');
+      } return setErrorMessage(false);
     }
   };
 
@@ -72,7 +82,7 @@ function Register() {
             </button>
           </div>
           <p data-testid="common_register__element-invalid_register">
-            error-message
+            {errorMessage}
           </p>
         </form>
       )
@@ -80,11 +90,3 @@ function Register() {
 }
 
 export default Register;
-
-/*
-common_register__input-name
-common_register__input-email
-common_register__input-password
-common_register__button-register
-common_register__element-invalid_register [Elemento oculto (Mensagens de erro)]
-*/
