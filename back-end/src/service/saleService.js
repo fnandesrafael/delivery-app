@@ -17,4 +17,9 @@ const createSale = async (requests, totalPrice, customerAdress) => {
   return sale.id;
 }; 
 
-module.exports = { createSale };
+const readSales = async (userId) => {
+  const sales = await db.Sale.findAll({ where: { userId } }, { raw: true });
+  return sales;
+};
+
+module.exports = { createSale, readSales };

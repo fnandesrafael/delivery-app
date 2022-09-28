@@ -2,7 +2,8 @@ const { verifyToken } = require('../service/tokenService');
 
 const tokenMiddleware = async (req, _res, next) => {
   const { authorization } = req.headers;
-  await verifyToken(authorization);  
+  const id = await verifyToken(authorization);
+  req.user = id;
   next();
 };
 
