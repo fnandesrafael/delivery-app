@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { Context } from '../context/context';
 import CartItem from '../components/CartItem';
 
 export default function Checkout() {
-  const [cartItems, setCartItems] = useState([]);
-
-  const { cartProducts } = useContext(Context);
+  const { cartProducts, cartItems, setCartItems } = useContext(Context);
 
   const filterCartProducts = () => {
     const filteredCartProducts = cartProducts.filter((product) => product.quantity !== 0);
@@ -16,7 +14,7 @@ export default function Checkout() {
   useEffect(() => {
     filterCartProducts();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cartProducts]);
 
   return (
     <>
@@ -74,13 +72,10 @@ export default function Checkout() {
         data-testid="customer_checkout__button-submit-order"
         type="button"
         aria-label="submit-button"
+        // onClick={ createOrder }
       >
         Finalizar Pedido
       </button>
     </>
   );
 }
-
-/*
-- 28: customer_checkout__element-order-total-price
-*/

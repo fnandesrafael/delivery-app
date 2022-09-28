@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Context } from '../context/context';
 
 export default function CartItem({ value }) {
-  const { index, name, price, quantity, totalPrice } = value;
+  const { cartProducts, setCartProducts } = useContext(Context);
+
+  const { index, id, name, price, quantity, totalPrice } = value;
+
+  const removeProduct = () => {
+    const newCartItems = cartProducts.map((product) => {
+      if (product.id === id) {
+        return { ...product, quantity: 0 };
+      }
+      return product;
+    });
+    console.log(newCartItems);
+    setCartProducts(newCartItems);
+  };
 
   return (
     <tr>
@@ -33,6 +47,7 @@ export default function CartItem({ value }) {
       </th>
       <th
         data-testid={ `customer_checkout__element-order-table-remove-${index}` }
+        onClick={ removeProduct }
       >
         Remover
       </th>
@@ -43,6 +58,7 @@ export default function CartItem({ value }) {
 CartItem.propTypes = {
   value: PropTypes.shape({
     index: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
