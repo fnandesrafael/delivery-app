@@ -54,8 +54,5 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "sales", timestamps: false }
   );
-  Sale.associate = (models) => {
-      Sale.belongsTo(models.User)
-    }
   return Sale;
 };

@@ -16,7 +16,6 @@ const checkifExistName = async (name) => {
 const createUser = async (user) => { 
   await checkifExistEmail(user.email);
   await checkifExistName(user.name);  
-  const token = createToken(user.email);
   const userDb = await db.User.create(
     {
       email: user.email,
@@ -24,7 +23,8 @@ const createUser = async (user) => {
       name: user.name,
       role: 'customer',
     },
-  );
+    );
+  const token = createToken({ email: userDb.email, id: userDb.id });
   return { token, name: userDb.name, email: userDb.email, role: userDb.role };
 };
 

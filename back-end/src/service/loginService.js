@@ -19,8 +19,8 @@ const checkPassword = async (user) => {
 
 const authenticateUser = async (user) => {
   await checkEmail(user.email);
-  const userDb = await checkPassword(user);
-  const token = createToken(user.email);
+  const userDb = await checkPassword(user); 
+  const token = createToken({ email: userDb.email, id: userDb.id });
   return ({ token, email: userDb.email, name: userDb.name, role: userDb.role });
 };
 

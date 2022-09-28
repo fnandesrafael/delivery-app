@@ -10,8 +10,8 @@ const createToken = (data) => {
 
 const verifyToken = (token) => {
   try {
-    const tokenVerify = jwt.verify(token, secret);    
-    return tokenVerify;
+    const tokenVerify = jwt.verify(token, secret);
+    return tokenVerify.id; 
   } catch (error) {
     throwCustomError('validationError', 'token invalid or expired');
   }
