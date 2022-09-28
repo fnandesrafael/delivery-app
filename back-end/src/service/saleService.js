@@ -22,4 +22,47 @@ const readSales = async (userId) => {
   return sales;
 };
 
-module.exports = { createSale, readSales };
+const structureSalesProducts = (salesDetails) =>
+  salesDetails.map((obj) => obj.products.map((product) => {
+    const request = {     
+      name: product.name,
+      price: product.price,
+      quantity: product.SalesProducts.quantity,
+      subTotal: product.SalesProducts.quantity * (+product.price),
+    };
+    return request;
+  }));  
+
+const structureSalesDetails = (salesDetails, data) => salesDetails.map((obj) => {
+  const newdata = {
+    saleId: obj.id,
+    sellerId: obj.sellerId,
+    deliveryAddress: obj.deliveryAddress,
+    saleDate: obj.saleDate,
+    products: data[0],
+    status: obj.status,
+    };
+    return newdata;
+  });
+
+const readSaleDetails = async (saleId) => {
+try {
+      const salesDetails = await db.Sale.findAll({
+      where: { id: saleId },    
+      include: {
+      as: 'products',
+      model: db.Product,
+      required: true,
+          attributes: ['name', 'price'],
+        },      
+        });
+  const data = structureSalesProducts(salesDetails);
+  const detailsFormated = structureSalesDetails(salesDetails, data); 
+  
+return detailsFormated;
+} catch (error) {
+  console.log(error);
+}
+}; 
+
+module.exports = { createSale, readSales, readSaleDetails };
