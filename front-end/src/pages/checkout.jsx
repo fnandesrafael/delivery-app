@@ -6,6 +6,7 @@ import { Context } from '../context/context';
 import CartItem from '../components/CartItem';
 
 const HTTP_CREATED = 201;
+const HTTP_OK = 200;
 
 export default function Checkout() {
   const [customerAddress, setCustomerAdderess] = useState({
@@ -13,6 +14,8 @@ export default function Checkout() {
     number: '',
   });
   const [orderId, setOrderId] = useState(0);
+  const [sellers, setSellers] = useState([]);
+  const [sellerId, setSellerId] = useState(1);
 
   const [isSaleCreated, setIsSaleCreated] = useState(false);
 
@@ -27,7 +30,7 @@ export default function Checkout() {
     const { id, token } = JSON.parse(localStorage.getItem('user'));
     const body = {
       requests: cartItems.map((item) => (
-        { ...item, userId: id, sellerId: 1, productId: item.id }
+        { ...item, userId: id, sellerId, productId: item.id }
       )),
       totalPrice,
       customerAddress,
@@ -40,6 +43,20 @@ export default function Checkout() {
       setIsSaleCreated(true);
     } setIsSaleCreated(false);
   };
+
+  const getSellers = async () => {
+    const { token } = JSON.parse(localStorage.getItem('user'));
+    const response = await axios.get('http://localhost:3001/sales/sellers', { headers: { Authorization: token } });
+
+    if (response.status === HTTP_OK) {
+      setSellers(response.data);
+      setSellerId(response.data[0].id);
+    }
+  };
+
+  useEffect(() => {
+    getSellers();
+  }, []);
 
   useEffect(() => {
     filterCartProducts();
@@ -88,8 +105,19 @@ export default function Checkout() {
           <h2>Detalhes e Endereço para Entrega</h2>
           <label htmlFor="seller">
             P. Vendedora Responsavel
-            <select data-testid="customer_checkout__select-seller">
-              <option>fulana</option>
+            <select
+              data-testid="customer_checkout__select-seller"
+              onChange={ ({ target }) => setSellerId(target.value) }
+            >
+              {sellers.map((seller) => (
+                <option
+                  key={ seller.id }
+                  value={ seller.id }
+                >
+                  {seller.name}
+
+                </option>
+              ))}
             </select>
           </label>
           <label htmlFor="adderess">
