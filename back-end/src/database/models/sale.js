@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         allowNull: false,
         type: DataTypes.STRING,
-        defaultValue: "pendente"
+        defaultValue: "Pendente"
       },
     },
     { tableName: "sales", timestamps: false }
