@@ -4,18 +4,21 @@ import PropTypes from 'prop-types';
 export const Context = createContext();
 
 function ContextProvider({ children }) {
-  const [totalProducts, setTotalProducts] = useState({});
-  const [cartProducts, setCartProducts] = useState([]);
+  const [productsTotalPrice, setProductsTotalPrice] = useState({});
+  const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const value = useMemo(() => ({
-    totalProducts,
-    setTotalProducts,
-    cartProducts,
-    setCartProducts,
+    productsTotalPrice,
+    setProductsTotalPrice,
+    products,
+    setProducts,
     cartItems,
     setCartItems,
-  }), [totalProducts, cartProducts, cartItems]);
+    totalPrice,
+    setTotalPrice,
+  }), [productsTotalPrice, products, cartItems, totalPrice]);
 
   return (
     <Context.Provider
