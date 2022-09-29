@@ -65,4 +65,10 @@ return detailsFormated;
 }
 }; 
 
-module.exports = { createSale, readSales, readSaleDetails };
+const readSellers = async () => {
+  const sellers = db.User
+    .findAll({ attributes: { exclude: ['password'] }, where: { role: 'seller' } });
+  return sellers;
+};
+
+module.exports = { createSale, readSales, readSaleDetails, readSellers };
