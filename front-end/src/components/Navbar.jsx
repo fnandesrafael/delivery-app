@@ -28,16 +28,16 @@ export default function Navbar() {
           to="/customer/products"
           data-testid="customer_products__element-navbar-link-products"
         >
-          <h5>Products</h5>
+          <h5>Produtos</h5>
         </Link>
         <Link
-          to="/customer/order"
+          to="/customer/orders"
           data-testid="customer_products__element-navbar-link-orders"
         >
-          <h5>Order</h5>
+          <h5>Meus Pedidos</h5>
         </Link>
         <Link
-          to="/customer/profile"
+          to="/"
           data-testid="customer_products__element-navbar-user-full-name"
         >
           <h5>{ userName }</h5>
@@ -47,7 +47,7 @@ export default function Navbar() {
           data-testid="customer_products__element-navbar-link-logout"
           onClick={ clearUserData }
         >
-          <h5>Logout</h5>
+          <h5>Sair</h5>
         </Link>
       </nav>
     )
