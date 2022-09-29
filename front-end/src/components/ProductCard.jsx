@@ -6,7 +6,7 @@ function ProductCard({ data }) {
   const [quantity, setQuantity] = useState(0);
   const [isLessBtnDisabled, setIsLessBtnDisabled] = useState(true);
 
-  const { setTotalProducts, setCartProducts } = useContext(Context);
+  const { setProductsTotalPrice, setProducts } = useContext(Context);
 
   const { id, name, price, urlImage } = data;
 
@@ -28,8 +28,10 @@ function ProductCard({ data }) {
         quantity,
       };
 
-      setTotalProducts((prevState) => ({ ...prevState, [`procut${id}`]: productPrice }));
-      setCartProducts((prevState) => prevState.map((product) => {
+      setProductsTotalPrice((prevState) => (
+        { ...prevState, [`procut${id}`]: productPrice }
+      ));
+      setProducts((prevState) => prevState.map((product) => {
         if (product.id === productCart.id) {
           return productCart;
         } return product;
@@ -43,7 +45,7 @@ function ProductCard({ data }) {
       } return setIsLessBtnDisabled(false);
     };
     verifyQuantity();
-  }, [id, name, urlImage, price, quantity, setTotalProducts, setCartProducts]);
+  }, [id, name, urlImage, price, quantity, setProductsTotalPrice, setProducts]);
 
   return (
     <div>

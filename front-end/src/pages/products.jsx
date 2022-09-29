@@ -6,19 +6,20 @@ import ProductCard from '../components/ProductCard';
 import { Context } from '../context/context';
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [productCards, setProductCards] = useState([]);
   const [isCartEmpty, setIsCartEmpty] = useState(true);
 
-  const { totalProducts, setCartProducts } = useContext(Context);
+  const {
+    setProducts, totalPrice, setTotalPrice, productsTotalPrice,
+  } = useContext(Context);
 
-  const getProducts = async () => {
+  const getProductsData = async () => {
     const userData = JSON.parse(localStorage.getItem('user'));
     const { token } = userData;
 
     const response = await axios.get('http://localhost:3001/products', { headers: { Authorization: token } });
-    setProducts(response.data);
-    setCartProducts(response.data.map((product) => ({
+    setProductCards(response.data);
+    setProducts(response.data.map((product) => ({
       ...product,
       totalPrice: 0,
       quantity: 0,
@@ -26,13 +27,12 @@ export default function Products() {
   };
 
   useEffect(() => {
-    getProducts();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    getProductsData();
   }, []);
 
   useEffect(() => {
     const calculateFinalPrice = () => {
-      const productValues = Object.values(totalProducts);
+      const productValues = Object.values(productsTotalPrice);
       const finalPrice = productValues.reduce((acc, cur) => acc + cur, 0);
       return setTotalPrice(Number(finalPrice));
     };
@@ -44,12 +44,12 @@ export default function Products() {
       } return setIsCartEmpty(true);
     };
     verifyCart();
-  }, [totalPrice, totalProducts]);
+  }, [totalPrice, setTotalPrice, productsTotalPrice]);
 
   return (
     <section>
       <Navbar />
-      {products.map((product) => (
+      {productCards.map((product) => (
         <ProductCard key={ product.id } data={ product } />
       ))}
       <Link to="/customer/checkout">

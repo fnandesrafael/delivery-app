@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import { Context } from '../context/context';
 
 export default function CartItem({ value }) {
-  const { cartProducts, setCartProducts } = useContext(Context);
+  const { products, setProducts } = useContext(Context);
 
   const { index, id, name, price, quantity, totalPrice } = value;
 
   const removeProduct = () => {
-    const newCartItems = cartProducts.map((product) => {
+    const newCartItems = products.map((product) => {
       if (product.id === id) {
         return { ...product, quantity: 0 };
       }
       return product;
     });
-    console.log(newCartItems);
-    setCartProducts(newCartItems);
+    setProducts(newCartItems);
   };
 
   return (
