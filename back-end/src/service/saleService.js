@@ -1,4 +1,4 @@
-const db = require("../database/models");
+const db = require('../database/models');
 
 const fillSalesProducts = async (productId, saleId, quantity) =>
   db.SalesProducts.create({ productId, saleId, quantity }, { raw: true });
@@ -14,11 +14,10 @@ const createSale = async (requests, totalPrice, customerAdress) => {
       deliveryAddress: address,
       deliveryNumber: number,
     },
-    { raw: true }
+    { raw: true },
   );
   await requests.map(({ productId, quantity }) =>
-    fillSalesProducts(productId, sale.id, quantity)
-  );
+    fillSalesProducts(productId, sale.id, quantity));
   return sale.id;
 };
 
@@ -42,8 +41,7 @@ const structureSalesProducts = (salesDetails) =>
         subTotal: product.SalesProducts.quantity * +product.price,
       };
       return request;
-    })
-  );
+    }));
 
 const structureSalesDetails = (salesDetails, data) =>
   salesDetails.map((obj) => {
@@ -63,10 +61,10 @@ const readSaleDetails = async (saleId) => {
     const salesDetails = await db.Sale.findAll({
       where: { id: saleId },
       include: {
-        as: "products",
+        as: 'products',
         model: db.Product,
         required: true,
-        attributes: ["name", "price"],
+        attributes: ['name', 'price'],
       },
     });
     const data = structureSalesProducts(salesDetails);
@@ -80,10 +78,20 @@ const readSaleDetails = async (saleId) => {
 
 const readSellers = async () => {
   const sellers = db.User.findAll({
-    attributes: { exclude: ["password"] },
-    where: { role: "seller" },
+    attributes: { exclude: ['password'] },
+    where: { role: 'seller' },
   });
   return sellers;
+};
+
+const changeStatus = async (status, id) => {
+  const newStatus = await db.Sale.update({ status }, { where: { id } });
+  return newStatus;
+};
+
+const findSaleStatus = async (id) => {
+  const { status } = await db.Sale.findByPk(id, { raw: true });
+  return status;
 };
 
 module.exports = {
@@ -92,4 +100,6 @@ module.exports = {
   readSaleDetails,
   readSellers,
   readSellerRequests,
+  changeStatus,
+  findSaleStatus,
 };

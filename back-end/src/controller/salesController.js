@@ -4,7 +4,9 @@ const {
   readSaleDetails,
   readSellers,
   readSellerRequests,
-} = require("../service/saleService");
+  changeStatus,
+  findSaleStatus,
+} = require('../service/saleService');
 
 const sale = async (req, res) => {
   const { requests, totalPrice, customerAddress } = req.body;
@@ -32,10 +34,18 @@ const getSellers = async (req, res) => {
   res.status(200).json(sellers);
 };
 
+const statusUpdate = async (req, res) => {
+  const { status, id } = req.body;
+  await changeStatus(status, id);
+  const newStatus = await findSaleStatus(id);
+  return res.status(200).json({ status: newStatus });
+};
+
 module.exports = {
   sale,
   getSales,
   getSaleDetails,
   getSellers,
   getSellerRequests,
+  statusUpdate,
 };
