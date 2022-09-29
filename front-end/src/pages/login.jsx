@@ -13,16 +13,6 @@ function Login() {
   const [isLoginBtnDisabled, setIsLoginBtnDisabled] = useState(true);
   const [isLogged, setIsLogged] = useState(false);
 
-  useEffect(() => {
-    function validateUserPayload() {
-      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-      if (email.match(emailRegex) && password.length >= MIN_PASSWORD_LENGTH) {
-        return setIsLoginBtnDisabled(false);
-      } return setIsLoginBtnDisabled(true);
-    } validateUserPayload();
-  }, [email, password]);
-
   const storageUserData = (userData) => {
     localStorage.setItem('user', JSON.stringify(userData));
   };
@@ -42,6 +32,24 @@ function Login() {
       } return setErrorMessage(false);
     }
   };
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+
+    if (userData) {
+      return setIsLogged(true);
+    } return setIsLogged(false);
+  }, []);
+
+  useEffect(() => {
+    function validateUserPayload() {
+      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+      if (email.match(emailRegex) && password.length >= MIN_PASSWORD_LENGTH) {
+        return setIsLoginBtnDisabled(false);
+      } return setIsLoginBtnDisabled(true);
+    } validateUserPayload();
+  }, [email, password]);
 
   return (
     isLogged ? (
