@@ -1,4 +1,4 @@
-const { createSale, readSales, readSaleDetails } = require('../service/saleService');
+const { createSale, readSales, readSaleDetails, readSellers } = require('../service/saleService');
 
 const sale = async (req, res) => {
   const { requests, totalPrice, customerAddress } = req.body;
@@ -17,4 +17,9 @@ const getSaleDetails = async (req, res) => {
   res.status(200).json(detailsSales);
 };
 
-module.exports = { sale, getSales, getSaleDetails };
+const getSellers = async (req, res) => {
+  const sellers = await readSellers();
+  res.status(200).json(sellers);
+};
+
+module.exports = { sale, getSales, getSaleDetails, getSellers };
