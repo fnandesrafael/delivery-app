@@ -21,11 +21,6 @@ export default function Orders() {
     getOrders();
   }, []);
 
-  /*
-  const test = '2022-09-29T23:24:36.000Z'
-  const test2 = test.split("T")
-  const test3 = test2[0].replaceAll('-', '/')
-  */
   return (
     <>
       <Navbar />
@@ -35,10 +30,3 @@ export default function Orders() {
     </>
   );
 }
-
-/*
-- 33: customer_orders__element-order-id-<id>
-- 34: customer_orders__element-delivery-status-<id>
-- 35: customer_orders__element-order-date-<id>
-- 36: customer_orders__element-card-price-<id>
-*/
