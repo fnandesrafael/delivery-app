@@ -15,28 +15,22 @@ export default function Order() {
   const getSaleDetails = async () => {
     const { token } = JSON.parse(localStorage.getItem('user'));
 
-    const sales = await axios.get('http://localhost:3001/sales', { headers: { Authorization: token } });
-
-    const filteredSale = sales.data.find((sale) => (
-      sale.id === Number(id)
-    ));
-
-    // const saleDetailsResponse = await axios.get(
-    //   `http://localhost:3001/sales/details/${id}`,
-    //   { headers: { Authorization: token } },
-    // );
+    const saleDetailsResponse = await axios.get(
+      `http://localhost:3001/sales/details/${id}`,
+      { headers: { Authorization: token } },
+    );
 
     const sellersResponse = await axios.get(
       'http://localhost:3001/sales/sellers',
       { headers: { Authorization: token } },
     );
 
-    if (sales.status === HTTP_OK && sellersResponse.status === HTTP_OK) {
+    if (saleDetailsResponse.status === HTTP_OK && sellersResponse.status === HTTP_OK) {
       const sellerData = sellersResponse.data.find((seller) => (
-        seller.id === filteredSale.sellerId
+        seller.id === saleDetailsResponse.data[0].sellerId
       ));
 
-      setSaleDetails({ ...filteredSale, sellerData });
+      setSaleDetails({ ...saleDetailsResponse.data[0], sellerData });
       setHasRecoveredData(true);
     }
   };
@@ -60,7 +54,7 @@ export default function Order() {
             name="id-order"
             data-testid="customer_order_details__element-order-details-label-order-id"
           >
-            { `PEDIDO 000${saleDetails.id}` }
+            { `PEDIDO 000${saleDetails.saleId}` }
           </p>
           <p
             name="seller-name"
@@ -89,7 +83,7 @@ export default function Order() {
             Entregue
           </button>
         </div>
-        {/* <table>
+        <table>
           <thead>
             <tr>
               <th>Item</th>
@@ -142,15 +136,15 @@ export default function Order() {
               ))
             }
           </tbody>
-        </table> */}
-        {/* <h3
+        </table>
+        <h3
           data-testid="customer_order_details__element-order-total-price"
         >
           {
             saleDetails.products.reduce((acc, cur) => acc + cur.subTotal, 0)
               .toFixed(2).replace('.', ',')
           }
-        </h3> */}
+        </h3>
       </div>
     ) : (<p>Carregando...</p>)
   );
