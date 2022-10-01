@@ -11,7 +11,7 @@ export default function OrderCard({ value }) {
   };
 
   return (
-    <Link to={ `customer/orders/${id}` }>
+    <Link to={ `/customer/orders/${id}` }>
       <div>
         <label htmlFor="orderNumber">
           Pedido:
